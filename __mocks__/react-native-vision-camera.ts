@@ -1,6 +1,9 @@
+import React from 'react';
+import { View } from 'react-native';
+
 const mockRequestPermission = jest.fn().mockResolvedValue(true);
 
-export const Camera = 'Camera';
+export const Camera = jest.fn((props: any) => React.createElement(View, props));
 
 export const useCameraDevice = jest.fn(() => ({
   id: 'mock-device',

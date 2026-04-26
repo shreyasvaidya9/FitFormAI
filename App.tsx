@@ -1,13 +1,13 @@
 import './global.css';
 
 import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
+import CameraView from './components/camera/CameraView';
 
 export default function App() {
   return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Text className="text-base">FitFormAI</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <CameraView />
+      <StatusBar style="light" />
+    </>
   );
 }

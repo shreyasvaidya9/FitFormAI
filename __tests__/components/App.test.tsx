@@ -7,8 +7,8 @@ describe('App', () => {
     render(<App />);
   });
 
-  it('displays the app name', () => {
+  it('renders the camera view', () => {
     render(<App />);
-    expect(screen.getByText('FitFormAI')).toBeTruthy();
+    expect(screen.getByTestId('grant-permission-btn')).toBeTruthy();
   });
 });
