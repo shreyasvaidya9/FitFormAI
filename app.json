@@ -16,7 +16,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "FitFormAI needs camera access to analyze your workout form in real time."
-      }
+      },
+      "bundleIdentifier": "com.anonymous.fitformai"
     },
     "android": {
       "adaptiveIcon": {
@@ -25,7 +26,9 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "permissions": ["android.permission.CAMERA"]
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
