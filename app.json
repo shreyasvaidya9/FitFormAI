@@ -25,6 +25,15 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "react-native-fast-tflite",
+      [
+        "react-native-vision-camera",
+        {
+          "cameraPermissionText": "FitFormAI needs camera access to analyze your workout form in real time."
+        }
+      ]
+    ]
   }
 }
