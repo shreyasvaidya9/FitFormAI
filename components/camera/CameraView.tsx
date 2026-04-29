@@ -1,9 +1,11 @@
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Camera, useCameraDevice, useCameraPermission } from 'react-native-vision-camera';
+import { usePoseDetection } from '../../hooks/usePoseDetection';
 
 export default function CameraView() {
   const device = useCameraDevice('front');
   const { hasPermission, requestPermission } = useCameraPermission();
+  const { frameProcessor } = usePoseDetection();
 
   if (!hasPermission) {
     return (
@@ -36,6 +38,7 @@ export default function CameraView() {
         device={device}
         isActive={true}
         style={StyleSheet.absoluteFill}
+        frameProcessor={frameProcessor}
         testID="camera-view"
       />
     </View>
