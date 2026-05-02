@@ -7,7 +7,11 @@ export const Canvas = jest.fn(({ children }: { children?: React.ReactNode }) =>
 
 export const Circle = jest.fn(() => null);
 
+export const Line = jest.fn(() => null);
+
 export const Path = jest.fn(() => null);
+
+export const vec = jest.fn((x: number, y: number) => ({ x, y }));
 
 export const Skia = {
   Path: {

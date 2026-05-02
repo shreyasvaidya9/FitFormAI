@@ -1,0 +1,25 @@
+appId: com.shreyasvaidya.spotter
+---
+# Grant camera permission on first launch (iOS system dialog)
+- runFlow:
+    when:
+      visible: "OK"
+    flow:
+      - tapOn: "OK"
+
+# Grant camera permission (app-level prompt)
+- runFlow:
+    when:
+      visible:
+        id: "grant-permission-btn"
+    flow:
+      - tapOn:
+          id: "grant-permission-btn"
+
+# Camera feed is visible
+- assertVisible:
+    id: "camera-view"
+
+# Overlay canvas is present (Skia Canvas renders as testID skia-canvas)
+- assertVisible:
+    id: "skia-canvas"

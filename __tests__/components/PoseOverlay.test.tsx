@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react-native';
-import { Circle } from '@shopify/react-native-skia';
+import { Circle, Line } from '@shopify/react-native-skia';
 import { PoseOverlay } from '../../components/PoseOverlay';
 import type { Keypoint } from '../../lib/poseDecoder';
 
@@ -28,12 +28,24 @@ describe('PoseOverlay', () => {
   it('renders no dots on initial mount (reaction fires asynchronously)', () => {
     const kp = makeSharedValue<Keypoint[]>([kpAt(0.5, 0.5, 0.9)]);
     render(<PoseOverlay keypoints={kp as any} />);
-    // useAnimatedReaction is a no-op in the mock, so displayKps stays []
+    // useAnimatedReaction is a no-op in the Reanimated mock
     expect(jest.mocked(Circle)).not.toHaveBeenCalled();
   });
 
-  it('accepts keypoints with scores below threshold without crashing', () => {
+  it('renders no skeleton lines on initial mount', () => {
+    const kp = makeSharedValue<Keypoint[]>([kpAt(0.5, 0.5, 0.9)]);
+    render(<PoseOverlay keypoints={kp as any} />);
+    expect(jest.mocked(Line)).not.toHaveBeenCalled();
+  });
+
+  it('accepts low-confidence keypoints without crashing', () => {
     const kp = makeSharedValue<Keypoint[]>([kpAt(0.1, 0.1, 0.1), kpAt(0.9, 0.9, 0.0)]);
     expect(() => render(<PoseOverlay keypoints={kp as any} />)).not.toThrow();
+  });
+
+  it('does not show fps text on initial mount', () => {
+    const kp = makeSharedValue<Keypoint[]>([]);
+    render(<PoseOverlay keypoints={kp as any} />);
+    expect(screen.queryByText(/fps/)).toBeNull();
   });
 });
