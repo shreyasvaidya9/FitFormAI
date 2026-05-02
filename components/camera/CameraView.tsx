@@ -1,11 +1,12 @@
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Camera, useCameraDevice, useCameraPermission } from 'react-native-vision-camera';
 import { usePoseDetection } from '../../hooks/usePoseDetection';
+import { PoseOverlay } from '../PoseOverlay';
 
 export default function CameraView() {
   const device = useCameraDevice('front');
   const { hasPermission, requestPermission } = useCameraPermission();
-  const { frameOutput } = usePoseDetection();
+  const { frameOutput, keypoints } = usePoseDetection();
 
   if (!hasPermission) {
     return (
@@ -41,6 +42,7 @@ export default function CameraView() {
         outputs={[frameOutput]}
         testID="camera-view"
       />
+      <PoseOverlay keypoints={keypoints} />
     </View>
   );
 }

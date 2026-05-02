@@ -5,7 +5,7 @@ module.exports = {
     '**/__tests__/components/**/*.test.ts',
   ],
   moduleNameMapper: {
-    '^@shopify/react-native-skia$': '@shopify/react-native-skia/src/mock',
+    '^@shopify/react-native-skia$': '<rootDir>/__mocks__/@shopify/react-native-skia',
     '^react-native-reanimated$': 'react-native-reanimated/mock',
     '\\.(css|scss|sass)$': '<rootDir>/__mocks__/styleMock.js',
     '\\.(tflite)$': '<rootDir>/__mocks__/fileMock.js',
