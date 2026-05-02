@@ -5,7 +5,7 @@ import { usePoseDetection } from '../../hooks/usePoseDetection';
 export default function CameraView() {
   const device = useCameraDevice('front');
   const { hasPermission, requestPermission } = useCameraPermission();
-  const { frameProcessor } = usePoseDetection();
+  const { frameOutput } = usePoseDetection();
 
   if (!hasPermission) {
     return (
@@ -38,7 +38,7 @@ export default function CameraView() {
         device={device}
         isActive={true}
         style={StyleSheet.absoluteFill}
-        frameProcessor={frameProcessor}
+        outputs={[frameOutput]}
         testID="camera-view"
       />
     </View>

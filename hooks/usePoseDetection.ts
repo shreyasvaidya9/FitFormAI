@@ -1,21 +1,45 @@
-import { useFrameProcessor } from 'react-native-vision-camera';
+import { useSharedValue, useAnimatedReaction, runOnJS } from 'react-native-reanimated';
+import { useFrameOutput } from 'react-native-vision-camera';
 import { usePoseModel } from '../lib/ml/poseModel';
+import { decodeMoveNetOutput, type Keypoint } from '../lib/poseDecoder';
+
+function logKeypoints(count: number) {
+  console.log('[PoseDetection] keypoints per frame:', count);
+}
 
 export function usePoseDetection() {
   const { state, model } = usePoseModel();
+  const keypoints = useSharedValue<Keypoint[]>([]);
+  const lastLogTime = useSharedValue(0);
 
-  const frameProcessor = useFrameProcessor(
-    (frame) => {
+  const frameOutput = useFrameOutput({
+    onFrame(frame) {
       'worklet';
-      if (model == null) return;
+      if (model == null) {
+        frame.dispose();
+        return;
+      }
       const outputs = model.runSync([frame]);
-      console.log('MoveNet raw output length:', outputs[0]?.length);
+      keypoints.value = decodeMoveNetOutput(outputs[0]);
+      frame.dispose();
     },
-    [model],
+  });
+
+  useAnimatedReaction(
+    () => keypoints.value,
+    (kps) => {
+      'worklet';
+      const now = Date.now();
+      if (now - lastLogTime.value > 1000) {
+        lastLogTime.value = now;
+        runOnJS(logKeypoints)(kps.length);
+      }
+    },
   );
 
   return {
-    frameProcessor,
+    frameOutput,
+    keypoints,
     isModelLoading: state !== 'loaded',
   };
 }

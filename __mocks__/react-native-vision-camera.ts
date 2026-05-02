@@ -31,6 +31,8 @@ export const useCameraPermission = jest.fn(() => ({
   requestPermission: mockRequestPermission,
 }));
 
+export const useFrameOutput = jest.fn(() => ({ id: 'mock-frame-output' }));
+
 export const useFrameProcessor = jest.fn(() => () => {});
 
 export const useSkiaFrameProcessor = jest.fn(() => () => {});

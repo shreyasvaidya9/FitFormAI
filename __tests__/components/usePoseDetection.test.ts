@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-native';
-import { useFrameProcessor } from 'react-native-vision-camera';
+import { useFrameOutput } from 'react-native-vision-camera';
 import { useTensorflowModel } from 'react-native-fast-tflite';
 import { usePoseDetection } from '../../hooks/usePoseDetection';
 
@@ -8,9 +8,14 @@ beforeEach(() => {
 });
 
 describe('usePoseDetection', () => {
-  it('returns a frameProcessor function', () => {
+  it('returns a frameOutput object', () => {
     const { result } = renderHook(() => usePoseDetection());
-    expect(typeof result.current.frameProcessor).toBe('function');
+    expect(result.current.frameOutput).toBeDefined();
+  });
+
+  it('returns a keypoints shared value', () => {
+    const { result } = renderHook(() => usePoseDetection());
+    expect(result.current.keypoints).toBeDefined();
   });
 
   it('reports isModelLoading=false when model is loaded', () => {
@@ -31,11 +36,8 @@ describe('usePoseDetection', () => {
     expect(result.current.isModelLoading).toBe(true);
   });
 
-  it('registers a frame processor with the model as dependency', () => {
-    const { result } = renderHook(() => usePoseDetection());
-    expect(jest.mocked(useFrameProcessor)).toHaveBeenCalledTimes(1);
-    // Model is passed as a dependency so the processor re-registers when it loads
-    const deps = jest.mocked(useFrameProcessor).mock.calls[0][1];
-    expect(deps).toHaveLength(1);
+  it('calls useFrameOutput to register the frame callback', () => {
+    renderHook(() => usePoseDetection());
+    expect(jest.mocked(useFrameOutput)).toHaveBeenCalledTimes(1);
   });
 });
